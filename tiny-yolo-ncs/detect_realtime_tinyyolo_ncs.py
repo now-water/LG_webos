@@ -68,6 +68,8 @@ print("[INFO] loading model to the plugin...")
 execNet = plugin.load(network=net, num_requests=1)
 fps = FPS().start()
 detected=[]#detected classes
+cap_img=[]#img capture
+find_text="cup"
 # loop over the frames from the video stream
 while True:
     # grab the next frame and handle if we are reading from either
@@ -153,7 +155,11 @@ while True:
                 # draw a bounding box rectangle and label on the frame
                 cv2.rectangle(orig, (obj["xmin"], obj["ymin"]), (obj["xmax"],
                     obj["ymax"]), COLORS[obj["class_id"]], 2)
-                cv2.putText(orig, label, (obj["xmin"], y),
+                
+		if LABELS[obj["class_id"]] == find_txt:
+			#cap_img.append(
+		
+		cv2.putText(orig, label, (obj["xmin"], y),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, COLORS[obj["class_id"]], 3)
                 if LABELS[obj["class_id"]] in detected:
                     pass
