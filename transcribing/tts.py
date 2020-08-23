@@ -1,18 +1,16 @@
-import requests
+from azure.cognitiveservices.speech import AudioDataStream, SpeechConfig, SpeechSynthesizer, SpeechSynthesisOutputFormat
+from azure.cognitiveservices.speech.audio import AudioOutputConfig
 
-url = "https://kakaoi-newtone-openapi.kakao.com/v1/synthesize"
-header = {
-    "Content-Type" : "application/xml",
-    "Authorization" : "KakaoAK a1e32e1055d027ca475ecce06329971a"
-}
-data = "<speak> 지옥에서 다시 돌아온 우분투 </speak>"
+def tts(item, res):
+    speech_config = SpeechConfig(subscription="bc0912f626b44d5a8bb00e4497644fa4", region="westus")
+    audio_config = AudioOutputConfig(filename="./result.wav")
 
-response = requests.post(url, headers=header, data=data.encode('utf-8'))
-rescode = response.status_code
-print("Server response code : " + str(rescode))
-if rescode == 200:
-    with open("./result.mp3", 'wb') as f:
-        f.write(response.content)
-        print("Saved audio file!")
-else:
-    print("Not valid request!")
+    synthesizer = SpeechSynthesizer(speech_config=speech_config, audio_config=audio_config)
+    appendString = ""
+    if res == "OK":
+        appendString = "is in direction you're looking"
+    else:
+        appendString = "is not in direction you're looking"
+    result = synthesizer.speak_text_async(item + appendString).get()
+    stream = AudioDataStream(result)
+    stream.save_to_wav_file("./result.mp3")
