@@ -28,20 +28,16 @@ PORT = 3000
 # Websocket transmitting function
 def sendFileToServer(filename):
     s = socket.socket()
-    s.bind((HOST, PORT))
+    s.connect((HOST, PORT))
     f = open(filename, "rb")
-    s.listen(5)
-
-    client, addr = s.accept()
 
     content = f.read(8096)
     while (content):
-        client.send(content)
+        s.send(content)
         content = f.read(8096)
     f.close()
-    client.shutdown(socket.SHUT_WR)
+    s.shutdown(socket.SHUT_WR)
     print("Image sent !")
-    s.close()
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
