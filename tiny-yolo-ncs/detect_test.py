@@ -20,6 +20,28 @@ import sys
 import ttsMp3
 import naver_tts
 import timer as t
+import socket
+
+HOST = '172.20.10.3'  # 'www.9shipcontrol.com'
+PORT = 3000
+
+# Websocket transmitting function
+def sendFileToServer(filename):
+    s = socket.socket()
+    s.bind((HOST, PORT))
+    f = open(filename, "rb")
+    s.listen(5)
+
+    client, addr = s.accept()
+
+    content = f.read(8096)
+    while (content):
+        client.send(content)
+        content = f.read(8096)
+    f.close()
+    client.shutdown(socket.SHUT_WR)
+    print("Image sent !")
+    s.close()
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -205,6 +227,9 @@ while True:
                 f = open('text.txt', mode='wt', encoding='utf-8')
                 f.write(sttWord)
 
+                # Transmit the image to AWS
+                sendFileToServer("result.jpg")
+
                 f.close()
                 naver_tts.tts(sttWord)
 
@@ -235,3 +260,4 @@ while True:
 # stop the video stream and close any open windows1
 vs.stop() if args["input"] is None else vs.release()
 cv2.destroyAllWindows()
+
