@@ -1,7 +1,5 @@
 # USAGE
 # python detect_realtime_tinyyolo_ncs.py --conf config/config.json \
-        # 	--input videos/test_video.mp4
-
 # import the necessary packages
 from openvino.inference_engine import IENetwork
 from openvino.inference_engine import IEPlugin
@@ -16,6 +14,9 @@ import imutils
 import time
 import cv2
 import os
+import stt
+import tts
+import sys
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -51,16 +52,18 @@ net.batch_size = 1
 (n, c, h, w) = net.inputs[inputBlob].shape
 
 # if a video path was not supplied, grab a reference to the webcam
+#load videostream to use stt.py
 if args["input"] is None:
     print("[INFO] starting video stream...")
     vs = VideoStream(src=0).start()
-        #vs = VideoStream(usePiCamera=True).start()
     time.sleep(2.0)
-
-# otherwise, grab a reference to the video file
-else:
-    print("[INFO] opening video file...")
-    vs = cv2.VideoCapture(os.path.abspath(args["input"]))
+#load stt.py to use stt
+print("[INFO] STT start..")
+sttWord=stt.main()
+print(sttWord)
+print("[INFO] STT end..")
+if sttWord == "finish":
+    sys.exit(0)
 
 # loading model to the plugin and start the frames per second
 # throughput estimator
@@ -68,8 +71,10 @@ print("[INFO] loading model to the plugin...")
 execNet = plugin.load(network=net, num_requests=1)
 fps = FPS().start()
 detected=[]#detected classes
-cap_img=[]#img capture
-find_text="cup"
+capimg=[]#capture image
+
+
+
 # loop over the frames from the video stream
 while True:
     # grab the next frame and handle if we are reading from either
@@ -155,16 +160,13 @@ while True:
                 # draw a bounding box rectangle and label on the frame
                 cv2.rectangle(orig, (obj["xmin"], obj["ymin"]), (obj["xmax"],
                     obj["ymax"]), COLORS[obj["class_id"]], 2)
-                
-		if LABELS[obj["class_id"]] == find_txt:
-			#cap_img.append(
-		
-		cv2.putText(orig, label, (obj["xmin"], y),
+                cv2.putText(orig, label, (obj["xmin"], y),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, COLORS[obj["class_id"]], 3)
                 if LABELS[obj["class_id"]] in detected:
                     pass
                 else:
                     detected.append(LABELS[obj["class_id"]])
+                cv2.imwrite("./1.jpg", orig)
                 # display the current frame to the screen and record if a user
         # presses a key
         cv2.imshow("TinyYOLOv3", orig)
@@ -180,7 +182,8 @@ print(detected)
 # stop the timer and display FPS information
 fps.stop()
 print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
-print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+# print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+tts.tts(sttWord)
 
 # stop the video stream and close any open windows1
 vs.stop() if args["input"] is None else vs.release()
