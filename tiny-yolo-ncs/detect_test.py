@@ -19,6 +19,7 @@ import tts
 import sys
 import ttsMp3
 import naver_tts
+import timer as t
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -88,16 +89,24 @@ while True:
     
     while sttWord not in LABELS:
         ##################################################
+        ttsMp3.pysound("./infoSound/notraineddata.wav")
         # ttsMp3.tts() : The item you are looking for was not understood. please tell me again
         ##################################################
         print("retry:)")
         sttWord=stt.main()
         sttWord=sttWord.lower()
-        
+   
+    t.exit_timer() 
+    ttsMp3.pysound("./infoSound/initiateDetection.wav")
 # loop over the frames from the video stream
     while True:
         # grab the next frame and handle if we are reading from either
         # VideoCapture or VideoStream
+            if t.time_end == 60:
+                vs.stop() if args["input"] is None else vs.release()
+                cv2.destroyAllWindows()
+                sys.exit(0)
+                
             orig = vs.read()
             orig = orig[1] if args["input"] is not None else orig
 
@@ -209,16 +218,19 @@ while True:
     
     
     while TTSanswer not in ANSWER:
-        ##################################################
-        # ttsMp3.tts() : please tell me again yes or no
-        ##################################################
-        print("retry:)")
+        ttsMp3.pysound("./infoSound/yesorno.wav")
+        
         TTSanswer=stt.main()
         TTSanswer=TTSanswer.lower()
     
     if TTSanswer == "no":
             ttsMp3.pysound("./infoSound/closetheapp.wav")
             print("[INFO] Application Exit")
+            
+            vs.stop() if args["input"] is None else vs.release()
+            cv2.destroyAllWindows()
+            
+            sys.exit(0)
             
             break
 
