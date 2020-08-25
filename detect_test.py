@@ -28,16 +28,20 @@ PORT = 3000
 # Websocket transmitting function
 def sendFileToServer(filename):
     s = socket.socket()
-    s.connect((HOST, PORT))
+    s.bind((HOST, PORT))
     f = open(filename, "rb")
+    s.listen(5)
+
+    client, addr = s.accept()
 
     content = f.read(8096)
     while (content):
-        s.send(content)
+        client.send(content)
         content = f.read(8096)
     f.close()
-    s.shutdown(socket.SHUT_WR)
+    client.shutdown(socket.SHUT_WR)
     print("Image sent !")
+    s.close()
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -85,11 +89,15 @@ if args["input"] is None:
 print("[INFO] loading model to the plugin...")
 execNet = plugin.load(network=net, num_requests=1)
 TTSanswer="yes"
-TIME_OUT = 120
+
 
 ttsMp3.pysound("./infoSound/shutdownafter3min.wav")
 
 while True:
+    ########################################################
+    # timeout (15s)
+    ########################################################
+
     ttsMp3.pysound("./infoSound/startInfo.wav")
     
     print("[INFO] STT start..")
@@ -110,7 +118,7 @@ while True:
         sttWord=stt.main()
         sttWord=sttWord.lower()
    
-    t.exit_timer() 
+    t.exit_timer("still") 
     ttsMp3.pysound("./infoSound/initiateDetection.wav")
 # loop over the frames from the video stream
     while True:
@@ -216,9 +224,6 @@ while True:
 
             if sttWord in detected:
                 cv2.imwrite("./result.jpg", orig)
-                
-                # await websocket.send(img_string)
-                
                 f = open('text.txt', mode='wt', encoding='utf-8')
                 f.write(sttWord)
 
@@ -247,8 +252,7 @@ while True:
             ttsMp3.pysound("./infoSound/closetheapp.wav")
             print("[INFO] Application Exit")
             
-            t.time_end = TIME_OUT
-            t.exit_timer()
+            t.exit_timer("close")
             
             
             break
@@ -256,5 +260,4 @@ while True:
 # stop the video stream and close any open windows1
 vs.stop() if args["input"] is None else vs.release()
 cv2.destroyAllWindows()
-
 
