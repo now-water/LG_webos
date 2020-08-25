@@ -96,7 +96,7 @@ while True:
         sttWord=stt.main()
         sttWord=sttWord.lower()
    
-    t.exit_timer() 
+    t.exit_timer("still") 
     ttsMp3.pysound("./infoSound/initiateDetection.wav")
 # loop over the frames from the video stream
     while True:
@@ -201,7 +201,7 @@ while True:
             key = cv2.waitKey(1) & 0xFF
 
             if sttWord in detected:
-                cv2.imwrite("./1.jpg", orig)
+                cv2.imwrite("./result.jpg", orig)
                 f = open('text.txt', mode='wt', encoding='utf-8')
                 f.write(sttWord)
 
@@ -227,10 +227,8 @@ while True:
             ttsMp3.pysound("./infoSound/closetheapp.wav")
             print("[INFO] Application Exit")
             
-            vs.stop() if args["input"] is None else vs.release()
-            cv2.destroyAllWindows()
+            t.exit_timer("close")
             
-            sys.exit(0)
             
             break
 
