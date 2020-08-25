@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "global-justice-283016",
+  "private_key_id": "bdb77adbd0038379311f934528e86dd8f9b16be9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDWRNIkvJe9kyuz\nttrAa32DWcZJaTRuTjyweeExZj/mucsOIoNpvpbo5c+ThQMOfe9Zw9+J6S+/KfwO\nGg0DDLwgyjI79aXByV+uIb60dc2Yu5QBVdeOK/Dz5ES4sn6wGvn9pC1zLOZaZegC\nMRlYZImCx4hK8XLHRpIIu8KhjHlCSYpSAHUIKWTKkZ2nsEQ9Iy/i/FjC5Fq84ete\nsZURWAvjaoIJNj9zE2wH4rwZ1JApguKC1L99oZI/ZOFKKz3WREd0QTHc5ZRXne06\nQxkf3ewSBvRrNmsx0K9q26tcM3wDe0i+7keM2obnk4/6FxzZvZ7uYO2ES/TzdLrq\nxAr2yc2XAgMBAAECggEAAwTyPyFHNB0sSvqDJ538JUsxD5zDZ+CDW2tEQJlzwhER\nKvBSkL1mS/7dB3Oi4OPmaQnpDvzxtsxlKF+2mjnmNsISpiSmgs4PIpmIIevdC09t\nXP10LaUx3oXzb/TX8yxWJHxZRZu23UQ9WjaN6GB2TZj5MzEm0GcOrL/UlMkxdj0j\nc5NloUhkAHumQYWG6QSL5ReSMpIIbUvbV0m/l5Brqx+reylQGNP2K4fjvdjhdykQ\nZEGTHSawqzbkc3abFi5lQeXLgtkeCrA5MkwOc5Sim0dbxn67rwkQK23j1iuQ30ll\nGCXt5E1BPU6WFyShuA2fQZB/X1Phwnpv6s5UBt98MQKBgQDqSN/DSAWDFH4EtarJ\njD05OXLYl82fj2EFghk3VDk7bTr9ki203JjbDoL82bOZqhjaJVPub+fW3uGrNOyt\naYnXTBrd5qF/nIduGsQQ+HmX52UcqjKC243B2dYPm9RZSkksqraj4fVg1+mtnb9j\n13j4KQJLrYO9ctjbYepcqMBihwKBgQDqIQJr+7vZtRB7YCHpbCnDwanaf5Kkof12\nzOiDEzB9tAwlA6JRuLKQAYj5rOX4ScQ/t75A+3v3ALiHETWKhhj7gqSe6BfCLVyp\nZCxbACSodgrAF+rFVaN6QDMimHsfKRzvtsrTJPa9Zg/JNb/aFXCAvfQQWqlsNdjj\nNZ7SJbMwcQKBgCfz1XTPy2DXFcZn1IAaUjZ3/YXCHWagZMMztGkjC79+mRi03OaC\n1+5DQ0MrPN1vjF1nEDERFFAoIgO4OsQ3wzHb4JkGw3OnldDI77aVKOcmpq+Etqhq\nGHp+U2rGAChZ6rCbTBoWZmnlaAwbYo/8JrzrAWE2bcjY1PJUeErk3CnxAoGBANnH\nGpmW7oTzBwG7yc917ONJoNS9FYpNo5Z9w0ko8FH8x88mMjYRtwZ8ZwzW5pKtCv65\nyx5mzkhTQ1FfkI3pbhOE0dt9x5u21ho6M4fx+ic4pYdIt/gWUJnGXcowS1YQx/mx\n7be5CkniRYzDklEo4Bzgk8Uij7U34SZ3GeQfbS4BAoGBAIz43ObcZP5qPl2WWXxE\na2+M4vgEVpwsKhZGH3ZFcN9/YlxQw4sn22/zb40pqcgfdx7XxK6H160bMeyDMpMZ\nJhweoVB7rjXodyjX5bX8fvfXHYdWx3HpCK+vrYVoQNTERFILNRdGtrDYBvhMLp5E\nynE+IlUDwI+Ly4lvWMz0Qw0A\n-----END PRIVATE KEY-----\n",
+  "client_email": "speech-to-text-api-test@global-justice-283016.iam.gserviceaccount.com",
+  "client_id": "112776878421530432640",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/speech-to-text-api-test%40global-justice-283016.iam.gserviceaccount.com"
+}
