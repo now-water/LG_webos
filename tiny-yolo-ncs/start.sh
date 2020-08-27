@@ -1,3 +1,2 @@
-workon openvino
-export GOOGLE_APPLICATION_CREDENTIALS="./key.json"
+export GOOGLE_APPLICATION_CREDENTIALS="./detectedSST.json"
 python detect_test.py --conf config/config.json

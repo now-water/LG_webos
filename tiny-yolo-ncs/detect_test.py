@@ -20,24 +20,8 @@ import sys
 import ttsMp3
 import naver_tts
 import timer as t
-import socket
 
-HOST = '192.168.43.240'  # 'www.9shipcontrol.com'
-PORT = 3000
-
-# Websocket transmitting function
-def sendFileToServer(filename):
-    s = socket.socket()
-    s.connect((HOST, PORT))
-    f = open(filename, "rb")
-
-    content = f.read(8096)
-    while (content):
-        s.send(content)
-        content = f.read(8096)
-    f.close()
-    s.shutdown(socket.SHUT_WR)
-    print("Image sent !")
+fileName = "result.jpg"
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -102,25 +86,27 @@ while True:
     capimg=[]      #capture image
     
     while sttWord not in LABELS:
-        ##################################################
         ttsMp3.pysound("./infoSound/notraineddata.wav")
-        # ttsMp3.tts() : The item you are looking for was not understood. please tell me again
-        ##################################################
+
         print("retry:)")
         sttWord=stt.main()
         sttWord=sttWord.lower()
    
     t.exit_timer() 
     ttsMp3.pysound("./infoSound/initiateDetection.wav")
+    
 # loop over the frames from the video stream
     while True:
         # grab the next frame and handle if we are reading from either
         # VideoCapture or VideoStream
-            if t.time_end == 60:
+        
+            if t.time_end == TIME_OUT:
                 vs.stop() if args["input"] is None else vs.release()
                 cv2.destroyAllWindows()
-                sys.exit(0)
                 
+                print("[INFO] Application Exit")
+                sys.exit()
+            
             orig = vs.read()
             orig = orig[1] if args["input"] is not None else orig
 
@@ -213,21 +199,18 @@ while True:
 
             cv2.imshow("TinyYOLOv3", orig)
             key = cv2.waitKey(1) & 0xFF
-
+            
             if sttWord in detected:
-                cv2.imwrite("./result.jpg", orig)
+                cv2.imwrite(fileName, orig)
                 
-                # await websocket.send(img_string)
-                
+
                 f = open('text.txt', mode='wt', encoding='utf-8')
                 f.write(sttWord)
 
-                # Transmit the image to AWS
-                sendFileToServer("result.jpg")
-
                 f.close()
                 naver_tts.tts(sttWord)
-
+                
+            
                 break
             
     
@@ -235,8 +218,7 @@ while True:
     print("[INFO] STT start..")
     TTSanswer=stt.main()
     print("[INFO] STT end..")
-    
-    
+        
     while TTSanswer not in ANSWER:
         ttsMp3.pysound("./infoSound/yesorno.wav")
         
@@ -248,13 +230,11 @@ while True:
             print("[INFO] Application Exit")
             
             t.time_end = TIME_OUT
-            t.exit_timer()
-            
-            
+            #t.exit_timer()
+            vs.stop() if args["input"] is None else vs.release()
+            cv2.destroyAllWindows()
+           
+            sys.exit()
+
             break
-
-# stop the video stream and close any open windows1
-vs.stop() if args["input"] is None else vs.release()
-cv2.destroyAllWindows()
-
-
+            

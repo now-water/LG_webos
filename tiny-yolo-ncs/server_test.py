@@ -5,18 +5,19 @@ import time
 import os.path
 
 
-host = "localhost"  # 172.31.53.3
-port_detection = 3004
+host = "172.20.10.4"  # 172.31.53.3
+port_detection = 3001
 
 
-async def accept_webOS(websocket):
-    previous="1";
+async def accept_webOS(websocket, path):
+    previous=1
     while True:
-        if os.path.isfile("result.jpg") and previous!=time.ctime(os.path.getmtime("result.jpg")):
+        if os.path.isfile("result.jpg") and previous!=os.path.getmtime("result.jpg"):
             with open("result.jpg","rb") as f:
                 img_string = base64.b64encode(f.read())  # .encode('utf8')
-                previous=time.ctime(os.path.getmtime("result.jpg"))
+                previous=os.path.getmtime("result.jpg")
                 await websocket.send(img_string)
+                await asyncio.sleep(0.2)
 
 
 print("server is run...")

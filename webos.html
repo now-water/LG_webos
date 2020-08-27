@@ -75,19 +75,18 @@
             <div id="output" width="400" height="640"></div>
             <script>
 
-                var output = document.getElementById("output");
-               
-                var oSocket = new WebSocket("ws://localhost:3001");
+                var oSocket = new WebSocket("ws://172.20.10.4:3001");            
                 var img = new Image();
-            
+                var output = document.getElementById("output");
 
                 oSocket.onmessage = function (e) {
+               
                      
                     var reader = new FileReader();
                     var text=(new Response(e.data)).text(); // promise
                     
                     text.then((value)=>{
-                        img.src='data:image/png;base64,' + value;
+                        img.src='data:image/jpg;base64,' + value;
                         output.appendChild(img);
                     });
 
