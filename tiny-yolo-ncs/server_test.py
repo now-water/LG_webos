@@ -1,40 +1,25 @@
 import base64
 import asyncio
 import websockets
-import socket
 import time
-host = "localhost"#172.31.53.3
-port_detection = 3000
-port_webOS = 3001
-websocket = ""
+import os.path
 
-async def accept_webOS(websoc, path):
-    print("Client connected !")
-    global websocket 
-    websocket = websoc
-    
-def getImageFromDetection():
-    global websocket
-    s = socket.socket()
-    s.bind((host, port_detection))
-    s.listen(5)
+
+host = "localhost"  # 172.31.53.3
+port_detection = 3004
+
+
+async def accept_webOS(websocket):
+    previous="1";
     while True:
-        client, addr = s.accept()
-        f = open("result.png", "wb")
-        l = client.recv(8096)
-        while(l):
-            f.write(l)
-            l = client.recv(8096)
-        f.close()
-        
-        with open("result.png", "rb") as f:
-            img_string = base64.b64encode(f.read())  # .encode('utf8')
-            websocket.send(img_string)
-        
-        print("File Transmitting Ended")
-        client.close()
+        if os.path.isfile("result.jpg") and previous!=time.ctime(os.path.getmtime("result.jpg")):
+            with open("result.jpg","rb") as f:
+                img_string = base64.b64encode(f.read())  # .encode('utf8')
+                previous=time.ctime(os.path.getmtime("result.jpg"))
+                await websocket.send(img_string)
 
-server_webOS = websockets.serve(accept_webOS, host, port_webOS);
-getImageFromDetection()
+
+print("server is run...")
+server_webOS = websockets.serve(accept_webOS, host, port_detection)
 asyncio.get_event_loop().run_until_complete(server_webOS)
 asyncio.get_event_loop().run_forever()
