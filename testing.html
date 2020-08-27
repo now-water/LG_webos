@@ -11,6 +11,29 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/cover/">
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- <script>
+    function quickServiceTest() {
+      var bridge = new WebOSServiceBridge();
+      var url = 'luna://com.webos.service.tts/speak';
+      bridge.onservicecallback = callback;
+      function callback(msg) { // return value call back function.
+        var response = JSON.parse(msg);
+        document.write(response.returnValue);
+      }
+      var params = JSON.stringify({
+        "uri": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+        "type": "media",
+        "payload": {
+          "option": {
+            "appId": "com.eyehelper",
+            "windowId": "_Window_Id_2"
+          }
+        }
+      });
+      bridge.call(url, params);
+    }
+    document.write("test");
+  </script> -->
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -82,6 +105,7 @@
         //oSocket.send("message");
         //oSocket.close();
             </script>
+            <button onclick="quickServiceTest()">click</button>
         </main>
         <footer class="mastfoot mt-auto">
             <div class="inner">
